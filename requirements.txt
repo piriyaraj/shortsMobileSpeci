@@ -2,7 +2,9 @@ beautifulsoup4==4.11.1
 cachetools==5.2.0
 certifi==2022.9.14
 charset-normalizer==2.1.1
+click==8.1.3
 decorator==4.4.2
+Flask==2.2.2
 google-api-core==2.10.1
 google-api-python-client==2.62.0
 google-auth==2.11.1
@@ -13,6 +15,10 @@ httplib2==0.20.4
 idna==3.4
 imageio==2.22.0
 imageio-ffmpeg==0.4.7
+importlib-metadata==4.12.0
+itsdangerous==2.1.2
+Jinja2==3.1.2
+MarkupSafe==2.1.1
 moviepy==1.0.3
 numpy==1.23.3
 oauth2client==4.1.3
@@ -32,3 +38,5 @@ soupsieve==2.3.2.post1
 tqdm==4.64.1
 uritemplate==4.1.1
 urllib3==1.26.12
+Werkzeug==2.2.2
+zipp==3.8.1
