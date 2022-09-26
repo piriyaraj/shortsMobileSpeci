@@ -79,6 +79,7 @@ def arrageList(allList,maxlen):
 def updateToPost(mobileLinks):
     dataDict={}
     for i in range(len(mobileLinks)):
+        print(mobileLinks[i])
         no=mobileLinks[i].split("-")[1].split(".")[0]
         dataDict[no]=mobileLinks[i]
     insertData('toPost', dataDict, dataBase, format='patch')

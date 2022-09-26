@@ -3,6 +3,7 @@ import os
 from flask import Flask, render_template
 from threading import Thread
 import main
+import extractUrl
 app = Flask(__name__)
 
 
@@ -10,6 +11,11 @@ app = Flask(__name__)
 def hello():
     return render_template("timepage.html", title="Home")
 
+@app.route('/extractnewpost')
+def extractnewpost():
+    thread_a = Thread(target=extractUrl.checkForNewPost, args=())
+    thread_a.start()
+    return render_template("timepage.html", title="Extracting new post")
 
 @app.route('/postvideo')
 def postvideo():

@@ -1,6 +1,7 @@
 from distutils.command.upload import upload
 import json
 import os
+
 import composeVideo
 import postScrapper
 import extractUrl
@@ -9,7 +10,7 @@ import tools
 url="https://gsmarena.com/allview_viva_1003g_lite-9909.php"
 
 def run():
-    extractUrl.checkForNewPost()
+    
     id,url=extractUrl.getNextPostUrlForExtract()
     title,dataDict=postScrapper.run(url)
     composeVideo.run(title,dataDict)
