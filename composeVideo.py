@@ -1,7 +1,5 @@
 from email.mime import image
 import os
-from re import template
-from turtle import title
 from moviepy.editor import *
 from PIL import *
 from PIL import ImageFont
