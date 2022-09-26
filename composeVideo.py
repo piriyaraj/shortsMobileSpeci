@@ -103,7 +103,7 @@ def makeVideo(title,noOfSlides)->None:
     audioclip = AudioFileClip(os.path.abspath("music/backgroundmusicshort.mp3"))
     video_clip = concatenate_videoclips(postClips, method='compose')
     video_clip.audio=audioclip
-    video_clip.write_videofile(os.path.abspath("output")+"/"+title+".mp4", fps=24, remove_temp=True, codec="libx264", audio_codec="aac")
+    video_clip.write_videofile(os.path.abspath("output")+"/"+title+".mp4", fps=1, remove_temp=True, codec="libx264", audio_codec="aac")
 
 def run(title,data):
     if(title==""):
