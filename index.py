@@ -8,7 +8,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return 'Hello, World!'
+    return render_template("timepage.html", title="Home")
+
 
 @app.route('/postvideo')
 def postvideo():
