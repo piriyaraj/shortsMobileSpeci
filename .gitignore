@@ -33,9 +33,6 @@ MANIFEST
 *.spec
 
 # media
-images/*
-imagesTemp/*
-videoImg
 *.mp4
 
 # Installer logs
