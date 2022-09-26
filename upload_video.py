@@ -138,6 +138,7 @@ def resumable_upload(insert_request):
             if response is not None:
                 if 'id' in response:
                     print ("Video id '%s' was successfully uploaded." % response['id'])
+                    return response['id']
                 else:
                     exit("The upload failed with an unexpected response: %s" % response)
         except HttpError as e:
@@ -160,7 +161,7 @@ def resumable_upload(insert_request):
             time.sleep(sleep_seconds)
 
 def run(file,title,description,category,keywords,privacyStatus):
-    print(file)
+    # print(file)
 
     argparser.add_argument("--file",help="Video file to upload")
     argparser.add_argument("--title", help="Video title", default="Test Title")

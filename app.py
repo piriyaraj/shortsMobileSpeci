@@ -1,5 +1,6 @@
 import os
-from flask import Flask
+from flask import Flask, render_template
+from threading import Thread
 import main
 app = Flask(__name__)
 
@@ -10,7 +11,9 @@ def hello():
 
 @app.route('/postvideo')
 def postvideo():
-    main.run()
+    thread_a = Thread(target=main.run, args=())
+    thread_a.start()
+    return render_template("timepage.html", title="start uploading")
 
 
 if __name__ == '__main__':
