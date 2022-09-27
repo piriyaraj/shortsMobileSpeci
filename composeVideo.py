@@ -40,7 +40,7 @@ def createTemps(noOfImg)->None:
 
 def addTexts(title,data)->None:
     tempImages=os.listdir("imagesTemp")
-    keys=list(data.keys())[:9]
+    keys=list(data.keys())
     for i in range(len(keys)): 
         templateTemp=Image.open(os.path.abspath("imagesTemp/"+str(i)+".jpg"))
 

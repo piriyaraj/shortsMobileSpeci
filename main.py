@@ -26,6 +26,7 @@ def run():
     videoId=upload_video.run(file,title,description,category,keywords,privacyStatus)
     extractUrl.deletePostedUrlForExtract(id)
     tools.pushNoti(tempTitle,videoId)
+    os.remove(file)
 
 if __name__=="__main__":
     run()
