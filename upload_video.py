@@ -184,6 +184,7 @@ def run(file,title,description,category,keywords,privacyStatus):
         return initialize_upload(youtube, args)
     except HttpError as e:
         print ("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
+        return False
     pass
 if __name__ == '__main__':
     # argparser.add_argument("--file", required=True,help="Video file to upload")
