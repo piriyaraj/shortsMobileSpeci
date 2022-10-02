@@ -1,1 +1,2 @@
-python3 upload_video.py --file="cartAdd.mp4" --title="Summer vacation in California" --description="Had fun surfing in Santa Cruz" --keywords="surfing,Santa Cruz" --category="22" --privacyStatus="private"
+source ../venv/bin/activate
+python3 main.py
