@@ -68,9 +68,16 @@ data={
     }
 } 
 
+def jsontotext(data):
+    text=""
+    for key in data.keys():
+        text += "========== "+key+" ==========\n"
+        # print("========== "+key+" ==========")
+        for ckey in data[key].keys():
+            # print("   -> "+ckey+(12-len(ckey))*" "+": "+data[key][ckey])
+            text += "   -> "+ckey+(12-len(ckey))*" "+": "+data[key][ckey]+"\n"
+        # print("\n")
+        text+="\n"
+    return text
 
-for key in data.keys():
-    print("========== "+key+" ==========")
-    for ckey in data[key].keys():
-        print("   -> "+ckey+(12-len(ckey))*" "+": "+data[key][ckey])
-    print("\n")
+print(jsontotext(data))

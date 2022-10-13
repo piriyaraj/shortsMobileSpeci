@@ -11,5 +11,18 @@ def pushNoti(postTitle,id):
         result=requests.get(url='http://xdroid.net/api/message',params=params)
         print(result.json())
 
+
+def jsontotext(data):
+    text = ""
+    for key in data.keys():
+        text += "=============== "+key+" ===============\n"
+        # print("========== "+key+" ==========")
+        for ckey in data[key].keys():
+            # print("   -> "+ckey+(12-len(ckey))*" "+": "+data[key][ckey])
+            text += "| "+ckey+": "+data[key][ckey]+"\n"
+        # print("\n")
+        text += "\n"
+    return text
+    
 if __name__=="__main__":
     pushNoti("new video uploaded","Ax1k05AvJgk")
