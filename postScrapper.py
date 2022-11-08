@@ -89,10 +89,10 @@ def maketable(soup):
     return dataDict
 
 
-def run(link):
+def run(soup):
     # link="https://www.gsmarena.com/oneplus_10_pro-11234.php"
-    reqs = requests.get(link)
-    soup = BeautifulSoup(reqs.text, 'html.parser')
+    # reqs = requests.get(link)
+    # soup = BeautifulSoup(reqs.text, 'html.parser')
     downloadImages(findimgurl(soup))
     dataDict=maketable(soup)
     phoneName = soup.title.text.split(" -")[0]

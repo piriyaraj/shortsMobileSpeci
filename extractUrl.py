@@ -1,10 +1,11 @@
+
 from firebase import firebase
 import requests
 from bs4 import BeautifulSoup
-
 databaseUrl = "https://colabfacebook-default-rtdb.firebaseio.com/YouTube/mobilespeci/"
 dataBase = firebase.FirebaseApplication(databaseUrl, None)
 
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'}
 # for extract post data  ==================================================
 def getLastPostNumberForExtract():
     postNumber = dataBase.get(databaseUrl, "data/lastPostNumberForExtract/")
@@ -14,7 +15,20 @@ def getLastPostNumberForExtract():
     pass
 
 # set lastPostNumber
-
+def isPublished(url):
+    reqs = requests.get(url, headers=headers)
+    soup = BeautifulSoup(reqs.text, 'html.parser')
+    table=soup.find("div",id="specs-list")
+    if(str(soup.title).find("Too Many")>0):
+        return "Too Many Requests"
+    print(soup.title.text,end=" :")
+    if(table.text.find("soon")<0):
+        print("released")
+        return soup
+    else:
+        print("Not released")
+        return False
+    pass
 
 def setLastPostNumberForExtract(postNumber):
     insertData('data', {"lastPostNumberForExtract": postNumber},
@@ -24,11 +38,21 @@ def setLastPostNumberForExtract(postNumber):
 # get next post url
 
 def getNextPostUrlForExtract():
-    postUrl = list(dataBase.get(databaseUrl, "toPost/"))[-1]
-    no=postUrl.split("-")[1].split(".")[0]
+    postUrl = list(dataBase.get(databaseUrl, "toPost/"))
+    postUrl.reverse()
+    for i in postUrl:
+        if(i==None):
+            continue
+        result=isPublished(i)
+        if(result == "Too Many Requests"):
+            return 0,result
+        if(result!=False):
+            no=i.split("-")[1].split(".")[0]
+            return no,result
+    
     # print(postUrl)
     # id = list(dataBase.get(databaseUrl, "toPost/").keys())[-1]
-    return no,postUrl
+    # return no,postUrl
     pass
 
 # detete posted url
@@ -77,12 +101,18 @@ def arrageList(allList,maxlen):
 
 # update toPost data
 def updateToPost(mobileLinks):
-    dataDict={}
+    dataDictReleased = {}
+    dataDictAnnounced = {}
     for i in range(len(mobileLinks)):
-        print(mobileLinks[i])
-        no=mobileLinks[i].split("-")[1].split(".")[0]
-        dataDict[no]=mobileLinks[i]
-    insertData('toPost', dataDict, dataBase, format='patch')
+        # print(mobileLinks[i])
+        no = mobileLinks[i].split("-")[1].split(".")[0]
+        if (isPublished(mobileLinks[i])==False):
+            dataDictAnnounced[no] = mobileLinks[i]
+        else:
+            dataDictReleased[no] = mobileLinks[i]
+        dataDictReleased[no] = mobileLinks[i]
+    insertData('toPost', dataDictReleased, dataBase, format='patch')
+    insertData('announced', dataDictAnnounced, dataBase, format='patch')
 
 def getAllMobilePosts(brand, url, lastPostUrl):
     # print(url)
@@ -113,8 +143,8 @@ def getAllMobilePosts(brand, url, lastPostUrl):
                 return mobileNames, mobileLinks
             mobileNames.append(mobileName)
             mobileLinks.append(postUrl)
-    insertData('data/lastPostInBrand/',{brand: mobileLinks[0]}, dataBase, format='patch')
-    return mobileLinks
+    
+    return mobileNames, mobileLinks
 
 # checking any new post availble using mobile count
 def checkForNewPost():
@@ -144,13 +174,19 @@ def checkForNewPost():
                     databaseUrl, "data/lastPostInBrand/"+mobileBrand)
             except:
                 lastPostInBrand = ""
-            postLinks=getAllMobilePosts(mobileBrand, mobileBrandUrl, lastPostInBrand)
+            mobileNames,postLinks=getAllMobilePosts(mobileBrand, mobileBrandUrl, lastPostInBrand)
             print("No of Total post : ",len(postLinks))
+            # print(postLinks)
+            # return
             updateToPost(postLinks)
+            if(len(postLinks)>0):
+               insertData('data/lastPostInBrand/',{mobileBrand: postLinks[0]}, dataBase, format='patch')
+
             # print(len(postLinks))
             if(len(postLinks)>maxLen):
                 maxLen=len(postLinks)
             insertData('data/crewelData',{mobileBrand: mobileCount}, dataBase, format='patch')
+            return
     # updateToPost(allPostLinks)
 
 if __name__=="__main__":
@@ -161,4 +197,7 @@ if __name__=="__main__":
     #     '1':"a",
     #     '4':"c"
     # }
-    print(getNextPostUrlForExtract())
+    urlNotPublished = "https://www.gsmarena.com/samsung_galaxy_a04e-11945.php"
+    urlPublished = "https://www.gsmarena.com/samsung_galaxy_s22_ultra_5g-11251.php"
+    url ="https://www.gsmarena.com/vivo_y77e_(t1)-11780.php"
+    getNextPostUrlForExtract()
