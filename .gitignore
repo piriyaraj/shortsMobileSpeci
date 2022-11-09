@@ -166,3 +166,4 @@ cython_debug/
 images/*.jpg
 videoImg/*.jpg
 imagesTemp/*.jpg
+app.py-oauth2.json
