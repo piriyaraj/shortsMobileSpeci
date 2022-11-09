@@ -24,8 +24,11 @@ def deleteFlolderContent(folder):
 
 def run():
     
-    id,url=extractUrl.getNextPostUrlForExtract()
-    title,dataDict=postScrapper.run(url)
+    id,soup=extractUrl.getNextPostUrlForExtract()
+    if(soup =="Too Many Requests"):
+        print(soup)
+        return soup
+    title,dataDict=postScrapper.run(soup)
     composeVideo.run(title,dataDict)
 
     file=os.path.abspath("output/"+title+".mp4")
@@ -35,7 +38,7 @@ def run():
     privacyStatus="public"
     tempTitle=title
     title=title+" price, ram, rom, camera and battery specifications"
-    print(description)
+    # print(description)
     videoId=upload_video.run(file,title,description,category,keywords,privacyStatus)
     if(videoId==False):
         os.remove(file)
