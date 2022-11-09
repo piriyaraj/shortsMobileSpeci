@@ -189,6 +189,17 @@ def checkForNewPost():
             return
     # updateToPost(allPostLinks)
 
+# check urls from firebase wether they are released or not
+def getRelasedUrlFromFirebase():
+    mobileLinks = list(dataBase.get(databaseUrl, "announced/").values())
+    dataDictReleased = {}
+    for i in range(len(mobileLinks)):
+        # print(mobileLinks[i])
+        no = mobileLinks[i].split("-")[1].split(".")[0]
+        if (isPublished(mobileLinks[i]) != False):
+            dataDictReleased[no] = mobileLinks[i]
+            dataBase.delete(databaseUrl, 'announced/'+no)
+    insertData('toPost', dataDictReleased, dataBase, format='patch')
 if __name__=="__main__":
     # id,url=getNextPostUrlForExtract()
     # print(id,url)
@@ -200,4 +211,4 @@ if __name__=="__main__":
     urlNotPublished = "https://www.gsmarena.com/samsung_galaxy_a04e-11945.php"
     urlPublished = "https://www.gsmarena.com/samsung_galaxy_s22_ultra_5g-11251.php"
     url ="https://www.gsmarena.com/vivo_y77e_(t1)-11780.php"
-    getNextPostUrlForExtract()
+    getRelasedUrlFromFirebase()
