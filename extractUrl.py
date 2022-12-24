@@ -110,7 +110,6 @@ def updateToPost(mobileLinks):
             dataDictAnnounced[no] = mobileLinks[i]
         else:
             dataDictReleased[no] = mobileLinks[i]
-        dataDictReleased[no] = mobileLinks[i]
     insertData('toPost', dataDictReleased, dataBase, format='patch')
     insertData('announced', dataDictAnnounced, dataBase, format='patch')
 
