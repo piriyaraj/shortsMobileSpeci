@@ -1,0 +1,12 @@
+name: python Script run
+on:
+  workflow_dispatch:
+  
+jobs: 
+  bulid:
+    runs-on: ubunthu_latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: run python code
+        run: python main.py
