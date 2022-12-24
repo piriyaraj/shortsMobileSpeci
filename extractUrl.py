@@ -49,6 +49,11 @@ def getNextPostUrlForExtract():
         if(result!=False):
             no=i.split("-")[1].split(".")[0]
             return no,result
+        else:
+            dataDictReleased = {}
+            dataDictReleased[no] = postUrl
+            dataBase.delete(databaseUrl, 'toPost/'+no)
+            insertData('announced', dataDictReleased, dataBase, format='patch')
     
     # print(postUrl)
     # id = list(dataBase.get(databaseUrl, "toPost/").keys())[-1]
